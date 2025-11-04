@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>RakshaMitra – Your Cybersecurity Guardian</title>
+
+<style>
+html,body{
+  margin:0;padding:0;height:100%;
+  font-family:"Poppins",sans-serif;color:#fff;background:#000;scroll-behavior:smooth;
+}
+section{padding:80px 20px;text-align:center;}
+
+/* === BACKGROUND === */
+#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;background:transparent;}
+.gradient{position:fixed;inset:0;background:radial-gradient(circle at 50% 50%,#001a33 0%,#030032 40%,#000 100%);animation:shift 20s ease-in-out infinite;background-size:200% 200%;z-index:0;}
+@keyframes shift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+
+/* === TRISHUL === */
+#trishul{margin:0 auto 20px;filter:drop-shadow(0 0 15px #ff33cc) drop-shadow(0 0 25px #00fff0);animation:draw 2s ease forwards;}
+@keyframes draw{0%{stroke-dasharray:1000;stroke-dashoffset:1000;opacity:0;}50%{opacity:1;}100%{stroke-dashoffset:0;}}
+#core{filter:drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 25px #ff33cc);animation:corePulse 2s infinite alternate ease-in-out;}
+@keyframes corePulse{from{r:8;opacity:0.7;}to{r:11;opacity:1;}}
+
+/* === TITLE === */
+h1{font-size:2.6rem;color:#00ffc8;text-shadow:0 0 18px rgba(0,255,200,0.6);}
+h2{color:#b3f7ff;}
+h3{color:#ff33cc;margin-top:10px;}
+p{color:#d0f7ff;max-width:700px;margin:10px auto;}
+
+/* === CLICK CONTINUE === */
+#continue{margin-top:30px;font-size:1.1rem;color:#00ffc8;cursor:pointer;animation:blink 1.2s infinite alternate;}
+@keyframes blink{from{opacity:0.8;}to{opacity:0.2;}}
+#arrow{display:block;margin:10px auto;width:30px;height:30px;border-left:3px solid #00ffc8;border-bottom:3px solid #00ffc8;transform:rotate(-45deg);animation:bounce 1s infinite alternate;}
+@keyframes bounce{to{transform:rotate(-45deg) translateY(10px);}}
+
+/* === BOX STYLES === */
+.box{background:rgba(255,255,255,0.05);border-radius:15px;padding:2rem 1.5rem;width:90%;max-width:480px;margin:0 auto;backdrop-filter:blur(10px);box-shadow:0 0 40px rgba(0,255,200,0.1);}
+input[type="text"],textarea{width:70%;padding:0.7rem;border-radius:10px;border:none;background:rgba(255,255,255,0.1);color:#fff;outline:none;}
+button{padding:0.7rem 1rem;border:none;border-radius:10px;background:#00ffc8;color:#001b16;font-weight:600;margin-left:0.5rem;cursor:pointer;transition:0.3s;}
+button:hover{background:#0affae;}
+#result{margin-top:1rem;font-size:1.1rem;transition:0.3s;}
+.go-btn{display:none;margin-top:15px;padding:0.6rem 1.2rem;border:none;border-radius:10px;background:linear-gradient(90deg,#00ffc8,#00b8ff);color:#001b16;font-weight:700;cursor:pointer;animation:pulseBtn 1.5s infinite alternate;}
+@keyframes pulseBtn{from{box-shadow:0 0 10px #00ffc8;}to{box-shadow:0 0 25px #00ffc8;}}
+</style>
+</head>
+
+<body>
+<canvas id="matrix"></canvas>
+<div class="gradient"></div>
+
+<!-- ===== ABOUT SECTION ===== -->
+<section id="about">
+  <svg id="trishul" viewBox="0 0 200 260" width="100" height="130">
+    <path d="M80 70 L60 20 L80 30 L80 70 Z" fill="none" stroke="url(#grad)" stroke-width="3"/>
+    <path d="M120 70 L140 20 L120 30 L120 70 Z" fill="none" stroke="url(#grad)" stroke-width="3"/>
+    <path d="M100 80 L100 10" fill="none" stroke="url(#grad)" stroke-width="3"/>
+    <path d="M100 80 L100 240" fill="none" stroke="url(#grad)" stroke-width="3"/>
+    <circle id="core" cx="100" cy="80" r="10" fill="#00ffff"/>
+    <defs>
+      <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#ff33cc"/>
+        <stop offset="100%" stop-color="#00fff0"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <h1>RakshaMitra</h1>
+  <h2>Your Cybersecurity Guardian</h2>
+  <p>
+    RakshaMitra is an AI-powered cybersecurity assistant built to detect malicious links,
+    analyze suspicious text, and safeguard users—especially senior citizens—from online threats.
+  </p>
+  <h3>रक्षा परमं धर्मः</h3>
+
+  <div id="continue">
+    Click to Continue<br>
+    <span id="arrow"></span>
+  </div>
+</section>
+
+<!-- ===== LINK CHECKER ===== -->
+<section id="linkChecker">
+  <div class="box">
+    <h2>Check if a Link is Safe</h2>
+    <input type="text" id="urlInput" placeholder="Paste your link here...">
+    <button onclick="checkLink()">Check</button>
+    <div id="result"></div>
+    <button id="goSite" class="go-btn" onclick="openSite()">Go to Site</button>
+  </div>
+</section>
+
+<!-- ===== PARAGRAPH CHECKER ===== -->
+<section id="paraChecker">
+  <div class="box">
+    <h2>Scan Paragraph for Links</h2>
+    <textarea id="paraInput" rows="5" placeholder="Paste paragraph containing links..."></textarea><br><br>
+    <button onclick="checkParagraph()">Scan</button>
+    <div id="paraResult"></div>
+  </div>
+</section>
+
+<script>
+// === BACKGROUND PARTICLES ===
+const c=document.getElementById("matrix"),ctx=c.getContext("2d");
+function resize(){c.width=innerWidth;c.height=innerHeight;}resize();onresize=resize;
+let dots=Array.from({length:100},()=>({x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-0.5)*0.5,vy:(Math.random()-0.5)*0.5}));
+(function draw(){ctx.clearRect(0,0,c.width,c.height);
+  for(let p of dots){ctx.beginPath();ctx.arc(p.x,p.y,1.2,0,Math.PI*2);
+    ctx.fillStyle="rgba(0,255,200,0.8)";ctx.shadowBlur=8;ctx.shadowColor="#00ffc8";ctx.fill();
+    p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>c.width)p.vx*=-1;if(p.y<0||p.y>c.height)p.vy*=-1;}
+  requestAnimationFrame(draw);
+})();
+
+// === CLICK TO CONTINUE ===
+document.getElementById("continue").addEventListener("click",()=>{document.getElementById("linkChecker").scrollIntoView({behavior:"smooth"});});
+
+// === LINK CHECKER ===
+let safeURL="";
+function checkLink(){
+  const val=document.getElementById("urlInput").value.trim();
+  const res=document.getElementById("result");
+  const go=document.getElementById("goSite");
+  if(!val){res.textContent="⚠️ Enter a link first!";res.style.color="white";go.style.display="none";return;}
+  const bad=[/\.ru\b/,/\.xyz\b/,/(free|bonus|win|prize|gift|claim)/,/(tinyurl|bit\.ly)/];
+  const https=!/^https:\/\//.test(val);
+  const suspicious=bad.some(p=>p.test(val));
+  if(!https||suspicious){res.textContent="🚫 Suspicious link detected!";res.style.color="#ff4d4d";go.style.display="none";}
+  else{res.textContent="✅ Link appears safe.";res.style.color="#00ffc8";go.style.display="inline-block";safeURL=val;}
+}
+function openSite(){if(safeURL)window.open(safeURL,"_blank");}
+
+// === PARAGRAPH CHECKER ===
+function checkParagraph(){
+  const text=document.getElementById("paraInput").value;
+  const out=document.getElementById("paraResult");
+  const links=text.match(/\bhttps?:\/\/[^\s]+/g);
+  if(!links){out.innerHTML="⚠️ No links found.";return;}
+  let html="";
+  for(let l of links){
+    let safe=/^https:\/\//.test(l)&&!/(free|bonus|win|bit\.ly|tinyurl)/.test(l);
+    html+=safe?`✅ <a href="${l}" target="_blank" style="color:#00ffc8">${l}</a> – Safe<br>`:`🚫 <span style="color:#ff4d4d">${l}</span> – Suspicious<br>`;
+  }
+  out.innerHTML=html;
+}
+</script>
+</body>
+</html>
+
+
+
