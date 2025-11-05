@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RakshaMitra – Intro</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background: radial-gradient(circle at center, #000000 0%, #020d1a 70%, #001a33 100%);
+      background: radial-gradient(circle at center, #000000 0%, #02111d 70%, #001a33 100%);
       overflow: hidden;
       font-family: 'Poppins', sans-serif;
       color: #00ffc8;
@@ -34,7 +34,7 @@
     h1 {
       font-size: 3rem;
       color: #00fff0;
-      text-shadow: 0 0 15px #00fff0;
+      text-shadow: 0 0 20px #00fff0;
       margin-bottom: 10px;
     }
 
@@ -52,10 +52,9 @@
       border-radius: 25px;
       font-size: 1.1rem;
       cursor: pointer;
-      box-shadow: 0 0 15px #00ffc8;
+      box-shadow: 0 0 20px #00ffc8;
       transition: 0.3s;
     }
-
     .button:hover {
       transform: scale(1.05);
       box-shadow: 0 0 25px #00ffc8;
@@ -66,20 +65,20 @@
       to { opacity: 1; transform: translate(-50%, -50%); }
     }
 
-    /* glowing Trishul symbol */
-    .trishul {
-      width: 80px;
-      margin: 0 auto 15px auto;
-      filter: drop-shadow(0 0 15px #ff33cc) drop-shadow(0 0 20px #00fff0);
+    /* Trishul SVG styling */
+    #trishul {
+      filter: drop-shadow(0 0 10px #ff33cc) drop-shadow(0 0 25px #00fff0);
+      margin-bottom: 20px;
     }
   </style>
 </head>
+
 <body>
   <canvas id="bg"></canvas>
 
   <div class="content">
-    <!-- 🔱 DIGITAL TRISHUL -->
-    <svg id="trishul" viewBox="0 0 200 260" width="80" height="120" style="filter: drop-shadow(0 0 15px #ff33cc) drop-shadow(0 0 20px #00fff0); margin-bottom: 20px;">
+    <!-- 🔱 Digital Trishul -->
+    <svg id="trishul" viewBox="0 0 200 260" width="100" height="140">
       <defs>
         <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#ff33cc"/>
@@ -94,7 +93,50 @@
     </svg>
 
     <h1>RakshaMitra</h1>
-    <p>Anywhere • Anytime<br>रक्षा परमं
+    <p>Anywhere • Anytime<br>रक्षा परमं धर्मः</p>
+
+    <button class="button" onclick="enterSite()">Enter Website</button>
+  </div>
+
+  <script>
+    // Futuristic background
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const dots = [];
+    for (let i = 0; i < 150; i++) {
+      dots.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 0.5,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5
+      });
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let d of dots) {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(0,255,255,0.6)";
+        ctx.fill();
+        d.x += d.vx; d.y += d.vy;
+        if (d.x < 0 || d.x > canvas.width) d.vx *= -1;
+        if (d.y < 0 || d.y > canvas.height) d.vy *= -1;
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // open main site
+    function enterSite() {
+      window.location.href = "main.html";
+    }
+  </script>
+</body>
 </html>
 
 
