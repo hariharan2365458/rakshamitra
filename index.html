@@ -76,51 +76,25 @@
 </head>
 <body>
   <canvas id="bg"></canvas>
+
   <div class="content">
-   <img src="trishul.png" alt="Trishul" class="trishul">
+    <!-- 🔱 DIGITAL TRISHUL -->
+    <svg id="trishul" viewBox="0 0 200 260" width="80" height="120" style="filter: drop-shadow(0 0 15px #ff33cc) drop-shadow(0 0 20px #00fff0); margin-bottom: 20px;">
+      <defs>
+        <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ff33cc"/>
+          <stop offset="100%" stop-color="#00fff0"/>
+        </linearGradient>
+      </defs>
+      <path d="M80 70 L60 20 L80 30 L80 70 Z" fill="none" stroke="url(#grad)" stroke-width="3"/>
+      <path d="M120 70 L140 20 L120 30 L120 70 Z" fill="none" stroke="url(#grad)" stroke-width="3"/>
+      <path d="M100 80 L100 10" fill="none" stroke="url(#grad)" stroke-width="3"/>
+      <path d="M100 80 L100 240" fill="none" stroke="url(#grad)" stroke-width="3"/>
+      <circle cx="100" cy="80" r="10" fill="#00ffff" />
+    </svg>
+
     <h1>RakshaMitra</h1>
-    <p>Anywhere • Anytime<br>रक्षा परमं धर्मः</p>
-    <button class="button" onclick="enterSite()">Enter Website</button>
-  </div>
-  <script>
-    // Futuristic particle background
-    const canvas = document.getElementById('bg');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const dots = [];
-    for (let i = 0; i < 150; i++) {
-      dots.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2 + 0.5,
-        vx: (Math.random() - 0.5) * 0.5,
-        vy: (Math.random() - 0.5) * 0.5
-      });
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let d of dots) {
-        ctx.beginPath();
-        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(0,255,255,0.6)";
-        ctx.fill();
-        d.x += d.vx; d.y += d.vy;
-        if (d.x < 0 || d.x > canvas.width) d.vx *= -1;
-        if (d.y < 0 || d.y > canvas.height) d.vy *= -1;
-      }
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    function enterSite() {
-      window.location.href = "main.html";
-    }
-  </script>
-
-</body>
+    <p>Anywhere • Anytime<br>रक्षा परमं
 </html>
 
 
